@@ -111,7 +111,7 @@ pub fn route() -> Router {
                 .get(empty_handler),
         );
     }
-    
+
     if config.ntf_watchlist_force {
         router = router.push(
             Router::new()
@@ -228,12 +228,12 @@ async fn should_skip(
     ctrl: &mut FlowCtrl,
 ) {
     let context: PlexContext = req.extract().await.unwrap();
-    
+
     let is_livetv = match context.path.clone() {
         Some(v) => v.contains("livetv"),
         None => false
     };
-    
+
     let is_plexamp = match context.product.clone() {
         Some(v) => v.to_lowercase().contains("plexamp"),
         None => false
@@ -314,7 +314,7 @@ async fn resolve_local_media_path(
     {
         let uri: url::Url = url::Url::parse(url.unwrap().as_str()).unwrap();
         let segments = uri.path_segments().unwrap().collect::<Vec<&str>>();
-        
+
         let uuid = segments.last().unwrap().replace(".jpg", "");
         //if context.token.is_none() {
         //    context.token = Some(segments.last().unwrap().to_string());
@@ -368,14 +368,14 @@ async fn ntf_watchlist_force(
             let url = format!("https://notifications.plex.tv/api/v1/notifications/settings?X-Plex-Token={}", &token);
             let json_data = r#"{"enabled": true,"libraries": [],"identifier": "tv.plex.notification.library.new"}"#;
             let client = reqwest::Client::new();
-        
+
             tracing::info!(
                 username = %context.clone().username.unwrap_or_default(),
                 platform = %context.clone().product.unwrap_or_default(),
                 platform = %context.clone().device_name.unwrap_or_default(),
                 "Bootstrao for request"
             );
-        
+
             let client_base = "https://clients.plex.tv";
             let res = client
                     .get(format!("{}/api/v2/user", client_base))
@@ -385,16 +385,16 @@ async fn ntf_watchlist_force(
                     .send()
                     .await
                     .unwrap();
-                    
-        
+
+
             if !res.status().is_success() {
               tracing::info!(
                 "cannot get user"
               );
               return;
             }
-            
-            
+
+
             let user: PlexUser = res.json().await.unwrap();
             tracing::info!(
                 id = %user.id,
@@ -402,7 +402,7 @@ async fn ntf_watchlist_force(
                 username = %user.username,
                 "got user"
             );
-            
+
             let response = client
                 .post(url)
                 .header("Content-Type", "application/json")
@@ -410,18 +410,18 @@ async fn ntf_watchlist_force(
                 .send()
                 .await
                 .unwrap();
-        
+
             tracing::info!(
                 status = %response.status(),
                 "watchlist status"
             );
-            
+
             let opts = vec![
               "tv.plex.provider.vod",
               "tv.plex.provider.music",
             ];
-            
-            //let 
+
+            //let
             //return;
             let u = format!("{}/api/v2/user/{}/settings/opt_outs", client_base, &user.uuid);
             for key in opts {
@@ -433,14 +433,14 @@ async fn ntf_watchlist_force(
                     .send()
                     .await
                     .unwrap();
-  
+
                 tracing::info!(
                 status = %response.status(),
                 "opt out status"
                 );
-              
+
             }
-            
+
         });
     }
 }
@@ -523,7 +523,7 @@ pub async fn direct_stream_fallback(
     if direct_play != "1" {
         return Ok(());
     }
-    
+
     let mut res_upstream = &mut Response::new();
     proxy_for_transform.handle(req, depot, res_upstream, ctrl).await;
 
@@ -532,7 +532,7 @@ pub async fn direct_stream_fallback(
             let container: MediaContainerWrapper<MediaContainer> =
             //from_reqwest_response(upstream_res).await?;
             from_salvo_response(res_upstream).await?;
-    
+
             if container.media_container.general_decision_code.is_some()
                 && container.media_container.general_decision_code.unwrap() == 2000
             {
@@ -549,8 +549,8 @@ pub async fn direct_stream_fallback(
                 "Got 400 bad request, falling back to direct stream"
             );
             add_query_param_salvo(req, "directPlay".to_string(), "0".to_string());
-            add_query_param_salvo(req, "directStream".to_string(), "1".to_string());   
-            //return Ok(());   
+            add_query_param_salvo(req, "directStream".to_string(), "1".to_string());
+            //return Ok(());
         },
         status => {
             tracing::error!(status = ?status, res = ?res_upstream, "Failed to get plex response");
@@ -651,7 +651,7 @@ pub async fn transform_req_android(
 ) {
     let config: Config = Config::dynamic(req).extract().unwrap();
     let context: PlexContext = req.extract().await.unwrap();
-    
+
     let mut count = context.clone().count.unwrap_or(25);
     match context.platform.unwrap() {
         Platform::Android => count = 50,
@@ -752,8 +752,8 @@ pub async fn default_transform(
     let mut url = Url::parse(req.uri_mut().to_string().as_str()).unwrap();
     url.set_path(&rest_path);
     req.set_uri(hyper::Uri::try_from(url.as_str()).unwrap());
-    
-    
+
+
     // patch, plex seems to pass wrong contentdirid, probaply cause we all load it inti the first
     let mut queries = req.queries().clone();
     queries.remove("contentDirectoryID");
@@ -990,13 +990,13 @@ async fn get_transcoding_for_request(
 ) -> Result<TranscodingStatus, anyhow::Error> {
     let context: PlexContext = req.extract().await.unwrap();
     let plex_client = PlexClient::from_context(&context);
-    
+
     let mut res = &mut Response::new();
     let mut depot = &mut Depot::new();
     let mut ctrl = &mut FlowCtrl::new(vec![]);
     proxy_for_transform.handle(req, depot, res, ctrl).await;
     dbg!(&res);
-    
+
     let ress = plex_client.proxy_request(&req).await?;
     dbg!(&ress);
     //dbg!(&req);

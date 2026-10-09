@@ -18,7 +18,7 @@ impl Transform for HubRestrictionTransform {
         options: PlexContext,
     ) -> bool {
         let config: Config = Config::figment().extract().unwrap();
-        
+
         if !config.hub_restrictions {
             return true;
         }
@@ -26,11 +26,11 @@ impl Transform for HubRestrictionTransform {
         if item.is_hub() && !item.is_collection_hub() {
             return true;
         }
-        
+
         if !item.is_hub() {
             return true;
         }
-        
+
         if item.size.unwrap() == 0 {
             return false;
         }

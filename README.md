@@ -25,7 +25,7 @@ I moved away from Plex and therefore this project is in need of an maintainer.
 
 ## How does it work
 
-Replex is an proxy that transforms the communication between the plex media server and plex clients. 
+Replex is an proxy that transforms the communication between the plex media server and plex clients.
 This allows replex to change some dials that otherwise wouldnt be possible.
 
 ## Installation
@@ -43,7 +43,7 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
       - VERSION=docker
-      # claim from https://plex.tv/claim 
+      # claim from https://plex.tv/claim
       - PLEX_CLAIM=
     ports:
       - 32400:32400
@@ -76,7 +76,7 @@ So for testing the direct web client is fine but after that you want to setup SS
 
 ## Settings
 
-Settings are set via [environment variables](https://kinsta.com/knowledgebase/what-is-an-environment-variable/) 
+Settings are set via [environment variables](https://kinsta.com/knowledgebase/what-is-an-environment-variable/)
 
 | Setting        	          | Default 	| Description                                                            	  |
 |---------------------------|----------|---------------------------------------------------------------------------|
@@ -89,8 +89,8 @@ Settings are set via [environment variables](https://kinsta.com/knowledgebase/wh
 | REPLEX_DISABLE_USER_STATE | true    | Remove watched badges from hub items. * does not work on all clients |
 | REPLEX_DISABLE_LEAF_COUNT| false    | Remove episode count label from show artwork.                              |
 | REPLEX_HERO_ROWS          |        	 | Comma seperated list of hubidentifiers to make builtin hubs hero style. For custom collections see [Hhb style](#-hub-style).  Options are: <br />home.movies.recent<br />movies.recent <br />movie.recentlyadded<br />movie.topunwatched<br />movie.recentlyviewed<br />hub.movie.recentlyreleased<br />movie.recentlyreleased<br />home.television.recent<br />tv.recentlyadded<br />tv.toprated<br />tv.inprogress<br />tv.recentlyaired    |
-| REPLEX_FORCE_MAXIMUM_QUALITY    | false    | This will force clients to use the maximum quality. Meaning that if a client requests anything other then the maximum quality this will be ignored and the maximum quality (direct play/stream when server allows for original) is used instead. This doesn't prevent transcoding. It only sets the bitrate to original quality. So if a client needs a different codec, container or audio it should still transcode. 
-| REPLEX_FORCE_DIRECT_PLAY_FOR    | false    | Force direct play for the given resolutions. Options are "4k", "1080" and "720".  This wil result in an error message if the client does not support directplay. Not recommended      
+| REPLEX_FORCE_MAXIMUM_QUALITY    | false    | This will force clients to use the maximum quality. Meaning that if a client requests anything other then the maximum quality this will be ignored and the maximum quality (direct play/stream when server allows for original) is used instead. This doesn't prevent transcoding. It only sets the bitrate to original quality. So if a client needs a different codec, container or audio it should still transcode.
+| REPLEX_FORCE_DIRECT_PLAY_FOR    | false    | Force direct play for the given resolutions. Options are "4k", "1080" and "720".  This wil result in an error message if the client does not support directplay. Not recommended
 | REPLEX_VIDEO_TRANSCODE_FALLBACK_FOR    |     | If the selected media triggers a video transcode. Fallback to another version of the media. Only triggers on video transcoding. Remuxing is still allowed. <br />Options are "4k" and "1080". <br /> <br /> Example if  REPLEX_VIDEO_TRANSCODE_FALLBACK_FOR is set to "4k" then 4k transcodes will fallback to another version if avaiable |
 | REPLEX_AUTO_SELECT_VERSION    | false    | If you have multiple versions of a media item then this setting will choose the one thats closest to the client resolution. So a 1080p TV will get the 1080P version while 4k gets the 4k version. A user can still override this by selecting a different version from the client.   |
 | REPLEX_DISABLE_RELATED  | false | See: https://github.com/lostb1t/replex/issues/26.        |
@@ -103,7 +103,7 @@ Settings are set via [environment variables](https://kinsta.com/knowledgebase/wh
 Collections hubs with the same name from different libraries will be merged into one on the home screen.
 So an collection hub named "Trending" in the Movie library will be merged with an collection named "Trending" from a shows library on home.
 
-Note, this does not work on builtin hubs. As i personally dont see then need of mixing those. 
+Note, this does not work on builtin hubs. As i personally dont see then need of mixing those.
 You can recreate the builtin rows with smart collections if you wish to have that functionality, or with PMM ofcourse.
 
 ## Hub style
@@ -129,7 +129,7 @@ But if you want other clients to connect to replex you need to setup a reverse p
 A few easy to setup reverse proxys are: https://caddyserver.com or https://nginxproxymanager.com
 
 Once you have your domain hooked up to replex add your replex url to 'Custom server access URLs' field under network.
-and lastly disable remote access under remote access. 
+and lastly disable remote access under remote access.
 
 Clear you clients caches to force plex reloading the custom server url
 

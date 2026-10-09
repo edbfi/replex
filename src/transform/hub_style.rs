@@ -192,14 +192,14 @@ impl Transform for HubStyleTransform {
             // TODO: Check why tries to load non existing collectiin? my guess is no access
             let is_hero =
                 item.is_hero(plex_client.clone()).await.unwrap_or(false);
-            
+
             if is_hero {
                 let style = ClientHeroStyle::from_context(options.clone());
 
                 item.style = style.style;
 
                 item.r#type = style.r#type;
-                
+
                 if style.include_meta {
                   item.meta = Some(hero_meta());
                 }

@@ -38,12 +38,12 @@ impl Transform for LibraryInterleaveTransform {
                 )
                 .await
                 .unwrap();
-        
+
             //match c {
             //    Ok(v) =>,
             //    Err(err) =>
             //}
-        
+
             let mut c = plex_client
                 .clone()
                 .get_cached(
@@ -59,7 +59,7 @@ impl Transform for LibraryInterleaveTransform {
                 )
                 .await
                 .unwrap();
-            
+
             // should have proper errors but lets assume not found so no access
             //match c {
             //    Ok(v) =>,
