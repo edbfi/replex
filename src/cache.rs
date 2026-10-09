@@ -306,7 +306,7 @@ impl CacheIssuer for RequestIssuer {
             for header in self.use_headers.iter() {
                 if req.headers().contains_key(header) {
                     key.push_str("::");
-                    if header == http::header::ACCEPT {                   
+                    if header == http::header::ACCEPT {
                         if let Some(i) = req.first_accept() {
                             key.push_str(i.to_string().as_str());
                         }
@@ -461,7 +461,7 @@ where
         let req_local_addr = req.local_addr().clone();
 
         let cache = match self.store.load_entry(&key).await {
-            Some(cache) => { 
+            Some(cache) => {
                 tracing::debug!("returning response from cache");
                 cache
             },

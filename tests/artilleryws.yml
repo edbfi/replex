@@ -1,6 +1,6 @@
 config:
   target: ws://0.0.0.0:80/:/websockets/notifications?X-Plex-Token={{TOKEN}}
-  engine: ws 
+  engine: ws
   # phases:
   #   - duration: 20
   #     arrivalRate: 10

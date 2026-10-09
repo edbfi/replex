@@ -183,7 +183,7 @@ impl PlexClient {
                 res.status()
             )));
         }
-        
+
         let container: MediaContainerWrapper<MediaContainer> =
             from_reqwest_response(res).await.unwrap();
         Ok(container)
@@ -323,7 +323,7 @@ impl PlexClient {
                     MediaContainerWrapper::default()
                 }
             };
-    
+
         let metadata = container.media_container.children_mut().get(0);
         let mut image: Option<String> = None;
         if metadata.is_some() {
@@ -334,11 +334,11 @@ impl PlexClient {
                 }
             }
         }
-        
+
         if image.is_none() {
            tracing::warn!(uuid = uuid, "No hero image found on plex");
         }
-        
+
         image.as_ref()?; // dont return and dont cache, let us just retry next time.
 
         //tracing::debug!("Hero image found");
@@ -366,7 +366,7 @@ impl PlexClient {
             url.parse::<url::Url>().unwrap(),
         );
         let mut headers = HeaderMap::new();
-        
+
         //endpoint is buggy, if llex has a cached version then it doesnt need a plex token
         // but if not cached then a server admin token is needed
         let mut token = config.token.clone();
@@ -453,13 +453,13 @@ impl PlexClient {
             (&ACCEPT_LANGUAGE.as_str(), Some("en-US".to_string())),
             //(http::header::HOST.as_str(), Some(config.host.clone().unwrap())),
         ]);
-        
+
         for (key, val) in headers_map {
             if val.is_some() {
               headers.insert(key.clone(), val.unwrap().as_str().parse().unwrap());
             }
         }
-        
+
        //let target_uri: url::Url = url::Url::parse(config.host.clone().unwrap().as_str()).unwrap();
        //let target_host = target_uri.host().unwrap().to_string().clone();
 

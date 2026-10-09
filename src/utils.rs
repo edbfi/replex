@@ -94,7 +94,7 @@ pub fn test_proxy(upstream: String) -> Proxy<String, ReqwestClient> {
              .build()
              .unwrap())
   );
-  
+
   proxy
 }
 

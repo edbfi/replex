@@ -38,14 +38,14 @@ impl Transform for MediaStyleTransform {
             }
 
             let mut guid = item.guid.clone().unwrap();
-            if guid.starts_with("plex://episode") && item.parent_guid.is_some() {    
+            if guid.starts_with("plex://episode") && item.parent_guid.is_some() {
                 guid = item.parent_guid.clone().unwrap();
             }
             guid = guid.replace("plex://", "");
 
             //let cover_art = Some(format!("https://metadata-static.plex.tv/7/gracenote/779d16f22ad2f3a002937133f8744e5d.jpg"));
-            // let cover_art = Some(format!("/replex/image/hero/{}?X-Plex-Token={}", 
-            let cover_art = Some(format!("{}://{}/replex/image/hero/{}?X-Plex-Token={}", 
+            // let cover_art = Some(format!("/replex/image/hero/{}?X-Plex-Token={}",
+            let cover_art = Some(format!("{}://{}/replex/image/hero/{}?X-Plex-Token={}",
                 match options.forwarded_proto {
                     Some(v) => v,
                     None => "http".to_string()

@@ -54,7 +54,7 @@ server {
     }
 
     location /hubs/sections/ {
-        proxy_pass $upstream_location;      
+        proxy_pass $upstream_location;
     }
 
     location /replex/ {

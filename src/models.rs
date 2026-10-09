@@ -98,7 +98,7 @@ pub struct Resolution {
 }
 
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
-pub struct PlexContextProduct { 
+pub struct PlexContextProduct {
     #[serde(default, rename(deserialize = "x-plex-product"))]
     pub product: Option<String>,
 }
@@ -129,7 +129,7 @@ pub struct PlexContext {
     #[salvo(extract(rename = "X-Plex-Device-Screen-Resolution"))]
     pub screen_resolution_original: Option<String>,
     #[salvo(extract(rename = "X-Plex-Client-Capabilities", alias = "x-plex-client-capabilities"))]
-    pub client_capabilities: Option<String>, 
+    pub client_capabilities: Option<String>,
     #[salvo(extract(rename = "X-Plex-Product"))]
     pub product: Option<String>,
     #[salvo(extract(rename = "X-Plex-Version"))]
@@ -1331,15 +1331,15 @@ impl MetaData {
             .unwrap()
             .has_label("REPLEXHERO".to_string()))
     }
-    
-    // view_count stays for show even when marked unwatched. 
+
+    // view_count stays for show even when marked unwatched.
     pub fn is_watched(&self) -> bool {
         // movie or episode
         if self.leaf_count.is_none() && self.view_count.is_some() && self.view_count.unwrap_or_default() > 0
         {
             return true;
         }
-        
+
         // show
         if self.viewed_leaf_count.is_some()
             && self.leaf_count.unwrap_or_default() == self.viewed_leaf_count.unwrap()
@@ -1348,7 +1348,7 @@ impl MetaData {
         }
         false
     }
-    
+
     // check if we should excluse watched items for this hub
     pub async fn exclude_watched(
         &self,
@@ -1358,7 +1358,7 @@ impl MetaData {
         if !self.is_collection_hub() {
             return Ok(config.exclude_watched);
         }
-        
+
         let collection = plex_client
             .clone()
             .get_cached(

@@ -108,7 +108,7 @@ impl TransformBuilder {
         let children = container.media_container.children_mut();
         //let new_children = self.apply_to_metadata(children).await;
         //container.media_container.set_children(new_children);
-        
+
         for t in self.transforms.clone() {
             let futures =
                 container.media_container.children_mut().iter_mut().map(
@@ -120,7 +120,7 @@ impl TransformBuilder {
                         )
                     },
                 );
-             
+
             future::join_all(futures).await;
             //for k in container.media_container.children_mut()
 
@@ -147,7 +147,7 @@ impl TransformBuilder {
             );
         }
     }
-    
+
     pub async fn apply_to(
         self,
         container: &mut MediaContainerWrapper<MediaContainer>,
@@ -160,7 +160,7 @@ impl TransformBuilder {
             for child in container.media_container.children_mut() {
                  //if filter_childs.contains(child.key.clone().unwrap()) {
                  //  continue;
-                 //} 
+                 //}
                  //dbg!(&child.rating_key);
                  //dbg!(&child.key);
                  if !t.filter_metadata(
@@ -179,7 +179,7 @@ impl TransformBuilder {
                             self.plex_client.clone(),
                             self.options.clone(),
                         ).await;
-                //if 
+                //if
                 //idx = idx + 1;
             }
             container.media_container.children_mut().retain(|x| !x.key.is_some() || !filter_childs.contains(&x.key.clone().unwrap()));
